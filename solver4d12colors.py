@@ -13,14 +13,14 @@ for x in range(12):
     for y in range(12):
         for z in range(12):
             for t in range(12):
-            #svaka celija sadrzi rijec
+            #each unit cube contains a string
                 cls.add_clause([var(x,y,z,t,s) for s in range(1,19)])
                 for s in range(1,19):
                     for ss in range(s+1,19):
-                    #svaka celija sadrzi tacno jednu rijec
+                    #each unit cube contains at most one string
                         cls.add_clause([-var(x,y,z,t,s),-var(x,y,z,t,ss)])
 
-#uslov I_1
+#constraint C_{1,1}
 for y in range(12):
     for z in range(12):
         for t in range(12):
@@ -34,7 +34,7 @@ for y in range(12):
 
 #uslov I_2 je sadrzan uslovom da nema + na prvoj poziciji
  
-#uslov II_1
+#constraint C_{2,1}
 for x in range(12):
     for z in range(12):
         for t in range(12):
@@ -47,7 +47,7 @@ for x in range(12):
                             cls.add_clause([-var(x,y,z,t,s+9),-var(x,yy,z,t,ss+9)])
                             cls.add_clause([-var(x,y,z,t,ss+9),-var(x,yy,z,t,s+9)])
  
-#uslov II_2                          
+#constraint C_{2,2}                          
 for x in range(12):
     for z in range(12):
         for t in range(12):
@@ -58,7 +58,7 @@ for x in range(12):
                             cls.add_clause([-var(x,y,z,t,s),-var(x,yy,z,t,ss)])
                             cls.add_clause([-var(x,y,z,t,s+9),-var(x,yy,z,t,ss+9)])
 
-#uslov III_1
+#constraint C_{3,1}
 for x in range(12):
     for y in range(12):
         for t in range(12):
@@ -70,7 +70,7 @@ for x in range(12):
                         cls.add_clause([-var(x,y,z,t,s),-var(x,y,zz,t,s+2)])
                         cls.add_clause([-var(x,y,zz,t,s),-var(x,y,z,t,s+2)])
 
-#uslov III_2
+#constraint C_{3,2}
 for x in range(12):
      for y in range(12):
          for t in range(12):
@@ -79,7 +79,7 @@ for x in range(12):
                      for s in range(3,19,3):
                          cls.add_clause([-var(x,y,z,t,s),-var(x,y,zz,t,s)])                       
 
-#uslov IV_1
+#constraint C_4
 for x in range(12):
     for y in range(12):
         for z in range(12):
@@ -88,7 +88,7 @@ for x in range(12):
                     for s in range(1,19):
                         cls.add_clause([-var(x,y,z,t,s),-var(x,y,z,tt,s)])
                         
-#uslov da strategija ne zavisi od prvog
+#constraint C*_{1,2}
 for y in range(12):
     for z in range(12):
         for t in range(12):
@@ -98,7 +98,7 @@ for y in range(12):
                         cls.add_clause([-var(x,y,z,t,s),var(xx,y,z,t,s)])
                         cls.add_clause([var(x,y,z,t,s),-var(xx,y,z,t,s)])
                         
-#uslov da je tablica centralno-simetricna
+#centrally-symmetric constraint
 for y in range(12):
     for z in range(6):
         for t in range(6):
@@ -113,7 +113,7 @@ for y in range(12):
                 cls.add_clause([-var(0,y,z,t,s),var(0,y,z+6,t-6,s)])
                 cls.add_clause([var(0,y,z,t,s),-var(0,y,z+6,t-6,s)])
                 
-#NNN i XNN na prvoj i sestoj
+#NNN and XNN constraint
 for y in range(12):
     for z in range(6):
         cls.add_clause([var(0,y,z,0,1)])
